@@ -83,16 +83,15 @@ export default function SideMenu() {
               })}
             </div>
 
-            <div className="mt-auto">
-              <div className="flex justify-center pb-5">
-                <Image
-                  src="/logoLWS.png"
-                  alt=""
-                  width={72}
-                  height={72}
-                  className="h-16 w-16 rounded-full border border-white/10 bg-white/5 p-2 object-contain opacity-95"
-                />
-              </div>
+            <div className="mt-10 flex justify-center">
+  <Image
+    src="/logoLWS.png"
+    alt="Logo Lion Wall Street"
+    width={72}
+    height={72}
+    className="h-16 w-16 rounded-full border border-white/10 bg-white/5 p-2 object-contain opacity-95"
+  />
+</div>
 
               <div className="border-t border-white/10 pt-5">
                 <div className="rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-4">
@@ -119,7 +118,6 @@ export default function SideMenu() {
             </div>
           </div>
         </div>
-      </div>
     </>
   );
 }
