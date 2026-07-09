@@ -47,7 +47,7 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mt-6 max-w-4xl text-5xl font-bold text-yellow-400 md:text-7xl"
         >
-          Décrypter les marchés. Construire une vision.
+          Apprenez à faire travailler votre argent avec nous. 
         </motion.h1>
 
         <motion.p
@@ -57,7 +57,7 @@ export default function Home() {
           className="mt-6 max-w-2xl text-lg text-gray-300"
         >
           Lion Wall Street est un univers dédié à la finance, à l’investissement et à l’analyse de marché,
-          avec une approche claire, moderne et ambitieuse.
+          avec une approche simple, moderne et ambitieuse pour vous apprendres les rouages de la bourse.
         </motion.p>
 
         <motion.div

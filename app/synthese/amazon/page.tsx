@@ -44,15 +44,55 @@ const amazonData = {
     analystView:
       "Consensus favorable, avec une attention particulière portée à AWS, aux marges retail et à la progression des activités publicitaires.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Amazon Investor Relations",
+      description:
+        "Page principale pour suivre les résultats, les communiqués, les lettres aux actionnaires et les documents officiels d’Amazon.",
+      url: "https://ir.aboutamazon.com/overview/default.aspx",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Amazon Quarterly Results",
+      description:
+        "Hub officiel qui centralise les publications trimestrielles d’Amazon, pratique pour retrouver rapidement les résultats par période.",
+      url: "https://ir.aboutamazon.com/quarterly-results/default.aspx",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Amazon Q1 2026 SEC release",
+      description:
+        "Document réglementaire utile pour vérifier les ventes, le résultat opérationnel, le net income et les commentaires de gestion du trimestre.",
+      url: "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000012/amzn-20260331xex991.htm",
+    },
+    {
+      category: "Résultats annuels / T4",
+      title: "Amazon.com Announces Fourth Quarter Results",
+      description:
+        "Publication officielle utile pour les chiffres annuels, AWS, le cash-flow opérationnel et le free cash flow sur douze mois glissants.",
+      url: "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Fourth-Quarter-Results/",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Yahoo Finance – Amazon earnings expectations",
+      description:
+        "Source pratique pour les attentes de marché sur l’EPS, le chiffre d’affaires, AWS et la surprise de résultats.",
+      url: "https://finance.yahoo.com/sectors/technology/article/amazon-q1-revenue-tops-estimates-as-aws-hits-15-quarter-growth-high-1322513",
+    },
+  ],
 };
 
 export default function AmazonPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function AmazonPage() {
                     {amazonData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Amazon.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {amazonData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

@@ -44,15 +44,55 @@ const micronData = {
     analystView:
       "Consensus constructif, avec une attention forte sur les prix mémoire, la demande IA, la discipline d’offre et la poursuite du redressement cyclique.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Micron Investor Relations",
+      description:
+        "Page principale pour accéder aux publications, résultats, événements investisseurs et documents officiels de Micron.",
+      url: "https://investors.micron.com/",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Micron Quarterly Results",
+      description:
+        "Hub officiel des résultats trimestriels, pratique pour retrouver rapidement les communiqués financiers de Micron.",
+      url: "https://investors.micron.com/quarterly-results",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Micron Q3 fiscal 2026 press release / SEC filing",
+      description:
+        "Source utile pour les revenus, le net income, la trésorerie, le cash-flow opérationnel et le free cash flow ajusté du trimestre.",
+      url: "https://www.sec.gov/Archives/edgar/data/723125/000072312526000013/a2026q3ex991-pressrelease.htm",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Micron reports record results for third quarter fiscal 2026",
+      description:
+        "Communiqué officiel Micron Investor Relations, utile pour compléter la lecture sur l’IA, la mémoire HBM et les perspectives.",
+      url: "https://investors.micron.com/news-releases/news-release-details/micron-technology-inc-reports-record-results-third-quarter",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Yahoo Finance – Micron Q3 earnings beat estimates",
+      description:
+        "Source pratique pour suivre le consensus marché, la surprise de résultats et les attentes sur l’EPS et le chiffre d’affaires.",
+      url: "https://finance.yahoo.com/video/micron-q3-earnings-far-surpass-202158400.html",
+    },
+  ],
 };
 
 export default function MicronPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function MicronPage() {
                     {micronData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Micron Technology.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {micronData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

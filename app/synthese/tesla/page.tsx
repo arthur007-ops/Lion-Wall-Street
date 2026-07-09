@@ -44,15 +44,55 @@ const teslaData = {
     analystView:
       "Consensus plus partagé que sur d’autres grandes capitalisations, avec un focus sur les livraisons, les marges, l’innovation et la visibilité de la demande.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Tesla Investor Relations",
+      description:
+        "Page principale pour accéder aux résultats trimestriels, livraisons, webcasts, consensus et documents officiels de Tesla.",
+      url: "https://ir.tesla.com/",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Tesla SEC Filings",
+      description:
+        "Page officielle qui centralise les dépôts réglementaires trimestriels et annuels de Tesla.",
+      url: "https://ir.tesla.com/sec-filings",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Tesla Q1 2026 Update",
+      description:
+        "Document officiel utile pour les revenus, les marges, le cash, les dépenses et les commentaires de gestion sur le trimestre.",
+      url: "https://assets-ir.tesla.com/tesla-contents/IR/TSLA-Q1-2026-Update.pdf",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Tesla Q1 2026 Earnings Consensus",
+      description:
+        "Page officielle Tesla listant le consensus marché sur les principaux postes avant la publication des résultats.",
+      url: "https://ir.tesla.com/press-release/earnings-consensus-first-quarter-2026",
+    },
+    {
+      category: "Lecture marché",
+      title: "Yahoo Finance – Tesla stock wavers after earnings call",
+      description:
+        "Source utile pour compléter la lecture marché sur la surprise de résultats, la réaction du titre et les attentes autour du capex et du robotaxi.",
+      url: "https://finance.yahoo.com/markets/stocks/article/tesla-stock-wavers-after-earnings-call-despite-strong-sales-and-tailwinds-135042830.html",
+    },
+  ],
 };
 
 export default function TeslaPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function TeslaPage() {
                     {teslaData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Tesla.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {teslaData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

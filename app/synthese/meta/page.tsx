@@ -44,15 +44,55 @@ const metaData = {
     analystView:
       "Consensus positif, avec un accent mis sur la publicité, la discipline des dépenses et la montée en puissance des outils d’IA dans l’écosystème Meta.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Meta Investor Relations",
+      description:
+        "Page principale pour accéder aux résultats, communiqués, événements, rapports et publications financières officielles de Meta.",
+      url: "https://investor.atmeta.com/home/default.aspx",
+    },
+    {
+      category: "Documents financiers",
+      title: "Meta Financials",
+      description:
+        "Page dédiée aux rapports annuels et trimestriels, pratique pour retrouver les documents financiers officiels.",
+      url: "https://investor.atmeta.com/financials/",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Meta Reports First Quarter 2026 Results",
+      description:
+        "Communiqué officiel utile pour les revenus, le net income, les marges, les dépenses et les éléments liés à l’activité publicitaire.",
+      url: "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-First-Quarter-2026-Results/default.aspx",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Nasdaq – Meta earnings forecasts",
+      description:
+        "Source pratique pour suivre les estimations de résultats, la date de publication attendue et le consensus EPS.",
+      url: "https://www.nasdaq.com/market-activity/stocks/meta/earnings",
+    },
+    {
+      category: "Lecture marché",
+      title: "Yahoo Finance – Meta Q4 earnings beat",
+      description:
+        "Source utile pour compléter la lecture marché sur les surprises de résultats, les attentes et les dépenses liées à l’IA.",
+      url: "https://finance.yahoo.com/news/meta-stock-climbs-on-q4-earnings-beat-plans-to-spend-as-much-as-135-billion-on-ai-build-out-in-2026-210428490.html",
+    },
+  ],
 };
 
 export default function MetaPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -89,7 +129,11 @@ export default function MetaPage() {
           </p>
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-3" role="tablist" aria-label="Sections Meta">
+        <div
+          className="mt-10 flex flex-wrap gap-3"
+          role="tablist"
+          aria-label="Sections Meta"
+        >
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
 
@@ -140,7 +184,11 @@ export default function MetaPage() {
           )}
 
           {activeTab === "financials" && (
-            <div role="tabpanel" id="panel-financials" aria-labelledby="tab-financials">
+            <div
+              role="tabpanel"
+              id="panel-financials"
+              aria-labelledby="tab-financials"
+            >
               <h2 className="text-2xl font-semibold text-yellow-400">
                 Bilans financiers
               </h2>
@@ -184,7 +232,11 @@ export default function MetaPage() {
           )}
 
           {activeTab === "estimates" && (
-            <div role="tabpanel" id="panel-estimates" aria-labelledby="tab-estimates">
+            <div
+              role="tabpanel"
+              id="panel-estimates"
+              aria-labelledby="tab-estimates"
+            >
               <h2 className="text-2xl font-semibold text-yellow-400">
                 Estimations
               </h2>
@@ -216,6 +268,48 @@ export default function MetaPage() {
                     {metaData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div
+              role="tabpanel"
+              id="panel-sources"
+              aria-labelledby="tab-sources"
+            >
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Meta.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {metaData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

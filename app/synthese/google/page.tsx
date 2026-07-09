@@ -44,15 +44,55 @@ const googleData = {
     analystView:
       "Consensus globalement positif, avec une attention portée à la publicité, au cloud et à la monétisation des initiatives liées à l’intelligence artificielle.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Alphabet Investor Relations",
+      description:
+        "Page principale pour accéder aux résultats, événements, documents financiers et informations officielles d’Alphabet.",
+      url: "https://abc.xyz/investor/",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Alphabet Announces First Quarter 2026 Results",
+      description:
+        "Communiqué de résultats officiel utile pour les revenus, le net income, l’EPS, la publicité, YouTube et Google Cloud.",
+      url: "https://s206.q4cdn.com/479360582/files/doc_financials/2026/q1/2026q1-alphabet-earnings-release.pdf",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Alphabet Q1 2026 SEC filing / Exhibit 99.1",
+      description:
+        "Version SEC du communiqué de résultats, utile pour vérifier les chiffres détaillés et les commentaires financiers.",
+      url: "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000043/googexhibit991q12026.htm",
+    },
+    {
+      category: "Earnings call",
+      title: "Alphabet Investor Relations – 2026 Q1 Earnings Call",
+      description:
+        "Source utile pour retrouver les commentaires du management, notamment sur Google Cloud, l’IA et la dynamique opérationnelle.",
+      url: "https://abc.xyz/investor/events/event-details/2026/2026-Q1-Earnings-Call-2026-nW8kCrBAKS/default.aspx",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Yahoo Finance – Alphabet analyst estimates",
+      description:
+        "Source pratique pour suivre les attentes de marché sur l’EPS, le chiffre d’affaires et les estimations des analystes.",
+      url: "https://finance.yahoo.com/quote/GOOG/analysis/",
+    },
+  ],
 };
 
 export default function GooglePage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function GooglePage() {
                     {googleData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Google / Alphabet.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {googleData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

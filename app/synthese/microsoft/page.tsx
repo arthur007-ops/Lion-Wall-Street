@@ -44,15 +44,55 @@ const microsoftData = {
     analystView:
       "Consensus favorable, avec une attention forte portée à Azure, aux marges et à la contribution des produits liés à l’IA.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Microsoft Investor Relations",
+      description:
+        "Page principale pour accéder aux publications, résultats, rapports, dividendes et informations investisseurs officielles.",
+      url: "https://www.microsoft.com/en-us/investor/default",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Microsoft SEC Filings",
+      description:
+        "Page officielle qui centralise les dépôts réglementaires trimestriels et annuels de Microsoft.",
+      url: "https://www.microsoft.com/en-us/investor/sec-filings",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Microsoft FY26 Q3 – Press Release & Webcast",
+      description:
+        "Source officielle utile pour les revenus, le net income, l’EPS, les commentaires sur Azure et la dynamique cloud/IA.",
+      url: "https://www.microsoft.com/en-us/investor/earnings/fy-2026-q3/press-release-webcast",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Microsoft Cloud and AI strength fuels third quarter results",
+      description:
+        "Version newsroom du communiqué trimestriel, pratique pour une lecture rapide des points clés liés au cloud et à l’IA.",
+      url: "https://news.microsoft.com/source/2026/04/29/microsoft-cloud-and-ai-strength-fuels-third-quarter-results/",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Yahoo Finance – Microsoft analyst estimates",
+      description:
+        "Source pratique pour suivre les attentes de marché sur les résultats, le chiffre d’affaires et le consensus analystes.",
+      url: "https://sg.finance.yahoo.com/quote/MSFT.SN/analysis/",
+    },
+  ],
 };
 
 export default function MicrosoftPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function MicrosoftPage() {
                     {microsoftData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Microsoft.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {microsoftData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

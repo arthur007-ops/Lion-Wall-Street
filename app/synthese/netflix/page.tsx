@@ -44,15 +44,55 @@ const netflixData = {
     analystView:
       "Consensus favorable, avec une attention particulière portée à la croissance des revenus, à la publicité, à la marge opérationnelle et à la dynamique d’abonnements.",
   },
+  sources: [
+    {
+      category: "Résultats trimestriels",
+      title: "Netflix Quarterly Earnings",
+      description:
+        "Hub officiel pour accéder aux publications trimestrielles, lettres aux actionnaires et principaux documents financiers de Netflix.",
+      url: "https://ir.netflix.net/financials/quarterly-earnings/default.aspx",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Netflix SEC Filings",
+      description:
+        "Page officielle regroupant les dépôts réglementaires de Netflix, utile pour vérifier les informations financières publiées.",
+      url: "https://ir.netflix.net/financials/sec-filings/default.aspx",
+    },
+    {
+      category: "Documents financiers",
+      title: "Netflix Annual Reports & Proxies",
+      description:
+        "Accès aux rapports annuels et documents de gouvernance, utile pour compléter la lecture long terme du dossier.",
+      url: "https://ir.netflix.net/financials/annual-reports-and-proxies/default.aspx",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Nasdaq – Netflix earnings",
+      description:
+        "Source pratique pour suivre les attentes de marché sur l’EPS, la date de publication et les prévisions trimestrielles.",
+      url: "https://www.nasdaq.com/market-activity/stocks/nflx/earnings",
+    },
+    {
+      category: "Lecture marché",
+      title: "Netflix Q1 2026 earnings & revenues top estimates",
+      description:
+        "Source utile pour compléter la lecture marché sur la surprise de résultats, les revenus, la marge opérationnelle et le free cash flow.",
+      url: "https://finance.yahoo.com/markets/stocks/articles/netflix-q1-earnings-revenues-top-152400638.html",
+    },
+  ],
 };
 
 export default function NetflixPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function NetflixPage() {
                     {netflixData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Netflix.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {netflixData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

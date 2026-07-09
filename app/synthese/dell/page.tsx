@@ -44,15 +44,55 @@ const dellData = {
     analystView:
       "Consensus plutôt constructif, avec un focus sur les serveurs, les solutions liées à l’IA, la demande entreprise et l’évolution des marges.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Dell Technologies Investor Relations",
+      description:
+        "Page principale pour accéder aux résultats, présentations, communiqués et informations financières officielles de Dell Technologies.",
+      url: "https://investors.delltechnologies.com/",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Dell Technologies SEC Filings",
+      description:
+        "Accès officiel aux rapports annuels, trimestriels et autres dépôts SEC pour vérifier les chiffres détaillés.",
+      url: "https://investors.delltechnologies.com/financial-information/sec-filings",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Dell Q1 fiscal 2027 earnings release (SEC Exhibit 99.1)",
+      description:
+        "Document utile pour les revenus, EPS, cash flow opérationnel et commentaires de management sur la dynamique IA et serveurs.",
+      url: "https://www.sec.gov/Archives/edgar/data/1571996/000157199626000021/exhibit991earnings8kq1fy27.htm",
+    },
+    {
+      category: "Résultats annuels",
+      title: "Dell Technologies Delivers Fourth Quarter and Full-Year Fiscal 2026 Results",
+      description:
+        "Publication officielle utile pour les chiffres annuels, la trajectoire de revenus et les principaux éléments financiers de l’exercice.",
+      url: "https://investors.delltechnologies.com/news-releases/news-release-details/dell-technologies-delivers-fourth-quarter-and-full-yea",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Yahoo Finance / Zacks – Dell Q1 earnings beat estimates",
+      description:
+        "Source pratique pour suivre la surprise de résultats, les attentes du consensus et la lecture marché autour de Dell.",
+      url: "https://finance.yahoo.com/markets/stocks/articles/dell-q1-earnings-beat-estimates-161900954.html",
+    },
+  ],
 };
 
 export default function DellPage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -211,6 +251,44 @@ export default function DellPage() {
                     {dellData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Dell Technologies.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {dellData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}

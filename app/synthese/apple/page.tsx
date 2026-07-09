@@ -41,17 +41,58 @@ const appleData = {
     epsEstimate: "1.42",
     revenueEstimate: "84.3B$",
     lastQuarterSurprise: "+3.2%",
-    analystView: "Consensus globalement positif, avec attention portée aux marges et aux services.",
+    analystView:
+      "Consensus globalement positif, avec attention portée aux marges et aux services.",
   },
+  sources: [
+    {
+      category: "Relations investisseurs",
+      title: "Apple Investor Relations",
+      description:
+        "Page principale pour les résultats, présentations, calendrier et documents officiels.",
+      url: "https://investor.apple.com/investor-relations/default.aspx",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Apple reports second quarter results",
+      description:
+        "Communiqué officiel Apple sur les résultats du T2 fiscal 2026, utile pour les revenus, EPS, marges et commentaires de direction.",
+      url: "https://www.apple.com/newsroom/2026/04/apple-reports-second-quarter-results/",
+    },
+    {
+      category: "Résultats trimestriels",
+      title: "Apple reports first quarter results",
+      description:
+        "Communiqué officiel Apple sur les résultats du T1 fiscal 2026, utile pour les records de revenus, EPS et génération de cash.",
+      url: "https://www.apple.com/newsroom/2026/01/apple-reports-first-quarter-results/",
+    },
+    {
+      category: "Documents réglementaires",
+      title: "Apple SEC Filings",
+      description:
+        "Accès aux rapports 10-K, 10-Q et autres dépôts SEC pour vérifier les états financiers détaillés.",
+      url: "https://investor.apple.com/sec-filings/default.aspx",
+    },
+    {
+      category: "Consensus analystes",
+      title: "Yahoo Finance – Apple earnings expectations",
+      description:
+        "Source pratique pour suivre les attentes de marché, le consensus EPS et chiffre d’affaires, ainsi que les surprises de résultats.",
+      url: "https://finance.yahoo.com/news/apple-stock-rises-after-q2-earnings-top-estimates-on-strong-iphone-china-sales-174442778.html",
+    },
+  ],
 };
 
 export default function ApplePage() {
-  const [activeTab, setActiveTab] = useState<"news" | "financials" | "estimates">("news");
+  const [activeTab, setActiveTab] = useState<
+    "news" | "financials" | "estimates" | "sources"
+  >("news");
 
   const tabs = [
     { id: "news", label: "Actualités" },
     { id: "financials", label: "Bilans" },
     { id: "estimates", label: "Estimations" },
+    { id: "sources", label: "Sources" },
   ] as const;
 
   return (
@@ -191,14 +232,18 @@ export default function ApplePage() {
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm text-gray-400">Chiffre d’affaires estimé</p>
+                  <p className="text-sm text-gray-400">
+                    Chiffre d’affaires estimé
+                  </p>
                   <p className="mt-2 text-3xl font-bold text-white">
                     {appleData.estimates.revenueEstimate}
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-white/10 bg-white/5 p-5 md:col-span-2">
-                  <p className="text-sm text-gray-400">Surprise dernier trimestre</p>
+                  <p className="text-sm text-gray-400">
+                    Surprise dernier trimestre
+                  </p>
                   <p className="mt-2 text-3xl font-bold text-white">
                     {appleData.estimates.lastQuarterSurprise}
                   </p>
@@ -210,6 +255,44 @@ export default function ApplePage() {
                     {appleData.estimates.analystView}
                   </p>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sources" && (
+            <div>
+              <h2 className="text-2xl font-semibold text-yellow-400">
+                Sources
+              </h2>
+              <p className="mt-3 max-w-3xl text-gray-300">
+                Cette section regroupe les liens utilisés pour documenter les
+                chiffres, le consensus et les principaux éléments de suivi sur
+                Apple.
+              </p>
+
+              <div className="mt-6 grid gap-4">
+                {appleData.sources.map((source, index) => (
+                  <article
+                    key={index}
+                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
+                  >
+                    <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                      {source.category}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-white">
+                      {source.title}
+                    </h3>
+                    <p className="mt-3 text-gray-300">{source.description}</p>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex rounded-xl border border-yellow-400/30 bg-yellow-400/10 px-4 py-2 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+                    >
+                      Ouvrir la source
+                    </a>
+                  </article>
+                ))}
               </div>
             </div>
           )}
