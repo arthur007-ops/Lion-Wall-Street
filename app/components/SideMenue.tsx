@@ -83,7 +83,7 @@ export default function SideMenu() {
               })}
             </div>
 
-            <div className="mt-10 flex justify-center">
+            <div className="flex h-32 items-center justify-center">
   <Image
     src="/logoLWS.png"
     alt="Logo Lion Wall Street"
