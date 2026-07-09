@@ -4,7 +4,7 @@ const trendingCompanies = [
   {
     name: "Micron Technology",
     symbol: "MU",
-    logo: "https://images.seeklogo.com/logo-png/44/1/micron-logo-png_seeklogo-446070.png",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Micron_Technology_logo_2024.svg&width=240",
     growth: "Très suivie en 2026",
     theme: "Mémoire / IA",
     reason:
@@ -13,7 +13,7 @@ const trendingCompanies = [
   {
     name: "Vertiv Holdings",
     symbol: "VRT",
-    logo: "https://play-lh.googleusercontent.com/898QW7Xa1NpisoJjSmaefB49RL27ADFJTLaczU8Ecor22ZTWjkqmEuxXJlApP_uKUlWvp7sJYinq4t7j2n_-1vo",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Vertiv_logo.svg&width=240",
     growth: "Momentum fort",
     theme: "Infrastructure / Data centers",
     reason:
@@ -22,7 +22,7 @@ const trendingCompanies = [
   {
     name: "Dell Technologies",
     symbol: "DELL",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Dell_Logo.svg/330px-Dell_Logo.svg.png",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Dell_Technologies_logo.svg&width=240",
     growth: "Forte dynamique",
     theme: "Serveurs / IA",
     reason:
@@ -31,7 +31,7 @@ const trendingCompanies = [
   {
     name: "Sandisk",
     symbol: "SNDK",
-    logo: "https://support.sandisk.com/images/kb/sandisk-app-icon.png",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/SanDisk_2024_logo.svg&width=240",
     growth: "Parmi les meilleures performances 2026",
     theme: "Stockage / Semi-conducteurs",
     reason:
@@ -40,7 +40,7 @@ const trendingCompanies = [
   {
     name: "Western Digital",
     symbol: "WDC",
-    logo: "https://www.also.com/ec/cms5/media/img/6110_1/herstellerseiten/wd/wdlogo.jpg",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Western_Digital_logo.svg&width=240",
     growth: "Forte attention marché",
     theme: "Stockage / Data",
     reason:
@@ -49,34 +49,16 @@ const trendingCompanies = [
   {
     name: "Seagate Technology",
     symbol: "STX",
-    logo: "https://logo.clearbit.com/seagate.com",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Seagate_logo.svg&width=240",
     growth: "Surveillance renforcée",
     theme: "Stockage / Infrastructures",
     reason:
       "Suivie pour son exposition au stockage de données dans un contexte de hausse des besoins numériques.",
   },
   {
-    name: "Quanta Services",
-    symbol: "PWR",
-    logo: "https://logo.clearbit.com/quantaservices.com",
-    growth: "Thème porteur",
-    theme: "Énergie / Réseaux",
-    reason:
-      "Exposée au renforcement des réseaux électriques nécessaires à la montée des data centers.",
-  },
-  {
-    name: "Comfort Systems USA",
-    symbol: "FIX",
-    logo: "https://logo.clearbit.com/comfortsystemsusa.com",
-    growth: "Très suivie",
-    theme: "Infrastructures / Refroidissement",
-    reason:
-      "Bénéficie du besoin croissant en installations techniques autour des centres de données.",
-  },
-  {
     name: "Modine Manufacturing",
     symbol: "MOD",
-    logo: "https://logo.clearbit.com/modine.com",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Modine.svg&width=240",
     growth: "Momentum de niche",
     theme: "Refroidissement / IA",
     reason:
@@ -85,7 +67,7 @@ const trendingCompanies = [
   {
     name: "Palantir Technologies",
     symbol: "PLTR",
-    logo: "https://logo.clearbit.com/palantir.com",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Palantir_company_logo.png&width=240",
     growth: "Valeur offensive",
     theme: "Logiciels / IA",
     reason:
@@ -94,7 +76,7 @@ const trendingCompanies = [
   {
     name: "Microsoft",
     symbol: "MSFT",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/3840px-Microsoft_logo.svg.png",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Microsoft_logo.svg&width=240",
     growth: "Leader structurel",
     theme: "Cloud / IA",
     reason:
@@ -103,7 +85,7 @@ const trendingCompanies = [
   {
     name: "Meta Platforms",
     symbol: "META",
-    logo: "https://logo.clearbit.com/meta.com",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Meta_Platforms_Inc._logo.svg&width=240",
     growth: "Toujours en vue",
     theme: "Plateforme / IA",
     reason:

@@ -3,11 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function SideMenu() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+
+  const touchStartX = useRef<number | null>(null);
+  const touchCurrentX = useRef<number | null>(null);
+
+  const mouseStartX = useRef<number | null>(null);
+  const mouseCurrentX = useRef<number | null>(null);
+  const isMouseDragging = useRef(false);
 
   const navItems = [
     { href: "/", label: "Accueil" },
@@ -20,11 +27,158 @@ export default function SideMenu() {
 
   const isContactActive = pathname === "/contact";
 
+  const SWIPE_THRESHOLD = 70;
+
+  const resetTouch = () => {
+    touchStartX.current = null;
+    touchCurrentX.current = null;
+  };
+
+  const resetMouse = () => {
+    mouseStartX.current = null;
+    mouseCurrentX.current = null;
+    isMouseDragging.current = false;
+  };
+
+  const handleGlobalTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchCurrentX.current = e.touches[0].clientX;
+  };
+
+  const handleGlobalTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchCurrentX.current = e.touches[0].clientX;
+  };
+
+  const handleGlobalTouchEnd = () => {
+    if (touchStartX.current === null || touchCurrentX.current === null) {
+      resetTouch();
+      return;
+    }
+
+    const startX = touchStartX.current;
+    const endX = touchCurrentX.current;
+    const deltaX = startX - endX;
+
+    if (!open && deltaX > SWIPE_THRESHOLD) {
+      setOpen(true);
+    }
+
+    resetTouch();
+  };
+
+  const handleMenuTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchCurrentX.current = e.touches[0].clientX;
+  };
+
+  const handleMenuTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchCurrentX.current = e.touches[0].clientX;
+  };
+
+  const handleMenuTouchEnd = () => {
+    if (touchStartX.current === null || touchCurrentX.current === null) {
+      resetTouch();
+      return;
+    }
+
+    const startX = touchStartX.current;
+    const endX = touchCurrentX.current;
+    const deltaX = endX - startX;
+
+    if (open && deltaX > SWIPE_THRESHOLD) {
+      setOpen(false);
+    }
+
+    resetTouch();
+  };
+
+  const handleGlobalMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    isMouseDragging.current = true;
+    mouseStartX.current = e.clientX;
+    mouseCurrentX.current = e.clientX;
+  };
+
+  const handleGlobalMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMouseDragging.current) return;
+    mouseCurrentX.current = e.clientX;
+  };
+
+  const handleGlobalMouseUp = () => {
+    if (
+      mouseStartX.current === null ||
+      mouseCurrentX.current === null ||
+      !isMouseDragging.current
+    ) {
+      resetMouse();
+      return;
+    }
+
+    const startX = mouseStartX.current;
+    const endX = mouseCurrentX.current;
+    const deltaX = startX - endX;
+
+    if (!open && deltaX > SWIPE_THRESHOLD) {
+      setOpen(true);
+    }
+
+    resetMouse();
+  };
+
+  const handleMenuMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    isMouseDragging.current = true;
+    mouseStartX.current = e.clientX;
+    mouseCurrentX.current = e.clientX;
+  };
+
+  const handleMenuMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isMouseDragging.current) return;
+    mouseCurrentX.current = e.clientX;
+  };
+
+  const handleMenuMouseUp = () => {
+    if (
+      mouseStartX.current === null ||
+      mouseCurrentX.current === null ||
+      !isMouseDragging.current
+    ) {
+      resetMouse();
+      return;
+    }
+
+    const startX = mouseStartX.current;
+    const endX = mouseCurrentX.current;
+    const deltaX = endX - startX;
+
+    if (open && deltaX > SWIPE_THRESHOLD) {
+      setOpen(false);
+    }
+
+    resetMouse();
+  };
+
   return (
     <>
+      {!open && (
+        <>
+          <div
+            className="fixed right-0 top-0 z-30 hidden h-full w-8 md:block"
+            onMouseDown={handleGlobalMouseDown}
+            onMouseMove={handleGlobalMouseMove}
+            onMouseUp={handleGlobalMouseUp}
+            onMouseLeave={handleGlobalMouseUp}
+          />
+          <div
+            className="fixed right-0 top-0 z-30 h-full w-8 md:hidden"
+            onTouchStart={handleGlobalTouchStart}
+            onTouchMove={handleGlobalTouchMove}
+            onTouchEnd={handleGlobalTouchEnd}
+          />
+        </>
+      )}
+
       <button
         onClick={() => setOpen(true)}
-        className="fixed right-6 top-6 z-40 rounded-xl border border-yellow-400/30 bg-yellow-400 px-5 py-3 font-semibold text-black shadow-lg transition hover:scale-105 hover:bg-yellow-300"
+        className="fixed right-6 top-6 z-40 rounded-2xl border border-yellow-400/30 bg-yellow-400 px-5 py-3 font-semibold text-black shadow-lg transition hover:scale-105 hover:bg-yellow-300"
       >
         Menu
       </button>
@@ -39,7 +193,14 @@ export default function SideMenu() {
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className={`h-full w-80 border-l border-white/10 bg-zinc-950 text-white shadow-2xl transform transition-transform duration-300 ease-in-out ${
+          onTouchStart={handleMenuTouchStart}
+          onTouchMove={handleMenuTouchMove}
+          onTouchEnd={handleMenuTouchEnd}
+          onMouseDown={handleMenuMouseDown}
+          onMouseMove={handleMenuMouseMove}
+          onMouseUp={handleMenuMouseUp}
+          onMouseLeave={handleMenuMouseUp}
+          className={`h-full w-80 rounded-l-3xl border-l border-white/10 bg-zinc-950 text-white shadow-2xl transform transition-transform duration-300 ease-in-out ${
             open ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -56,7 +217,7 @@ export default function SideMenu() {
 
               <button
                 onClick={() => setOpen(false)}
-                className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300 transition hover:border-yellow-400/30 hover:bg-yellow-400/10 hover:text-yellow-300"
+                className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300 transition hover:border-yellow-400/30 hover:bg-yellow-400/10 hover:text-yellow-300"
               >
                 Fermer
               </button>
@@ -71,7 +232,7 @@ export default function SideMenu() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className={`rounded-2xl border px-4 py-3 font-medium transition ${
+                    className={`rounded-3xl border px-4 py-3 font-medium transition ${
                       isActive
                         ? "border-yellow-400/30 bg-yellow-400/10 text-yellow-300"
                         : "border-white/10 bg-white/5 text-gray-300 hover:border-yellow-400/20 hover:bg-yellow-400/5 hover:text-yellow-300"
@@ -84,40 +245,40 @@ export default function SideMenu() {
             </div>
 
             <div className="flex h-32 items-center justify-center">
-  <Image
-    src="/logoLWS.png"
-    alt="Logo Lion Wall Street"
-    width={72}
-    height={72}
-    className="h-16 w-16 rounded-full border border-white/10 bg-white/5 p-2 object-contain opacity-95"
-  />
-</div>
+              <Image
+                src="/logoLWS.png"
+                alt="Logo Lion Wall Street"
+                width={72}
+                height={72}
+                className="h-16 w-16 rounded-full border border-white/10 bg-white/5 p-2 object-contain opacity-95"
+              />
+            </div>
 
-              <div className="border-t border-white/10 pt-5">
-                <div className="rounded-2xl border border-yellow-400/20 bg-yellow-400/5 p-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
-                    Contact
-                  </p>
-                  <p className="mt-2 text-sm text-gray-300">
-                    Une question, une demande ou un partenariat.
-                  </p>
+            <div className="border-t border-white/10 pt-5">
+              <div className="rounded-3xl border border-yellow-400/20 bg-yellow-400/5 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-yellow-400/70">
+                  Contact
+                </p>
+                <p className="mt-2 text-sm text-gray-300">
+                  Une question, une demande ou un partenariat.
+                </p>
 
-                  <Link
-                    href="/contact"
-                    onClick={() => setOpen(false)}
-                    className={`mt-4 inline-flex w-full items-center justify-center rounded-xl border px-4 py-3 text-sm font-semibold transition ${
-                      isContactActive
-                        ? "border-yellow-400/30 bg-yellow-400 text-black"
-                        : "border-yellow-400/30 bg-yellow-400 text-black hover:bg-yellow-300"
-                    }`}
-                  >
-                    Nous contacter
-                  </Link>
-                </div>
+                <Link
+                  href="/contact"
+                  onClick={() => setOpen(false)}
+                  className={`mt-4 inline-flex w-full items-center justify-center rounded-2xl border px-4 py-3 text-sm font-semibold transition ${
+                    isContactActive
+                      ? "border-yellow-400/30 bg-yellow-400 text-black"
+                      : "border-yellow-400/30 bg-yellow-400 text-black hover:bg-yellow-300"
+                  }`}
+                >
+                  Nous contacter
+                </Link>
               </div>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 }

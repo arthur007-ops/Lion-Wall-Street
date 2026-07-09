@@ -95,8 +95,111 @@ const companies = [
     logo: "https://cignal.ai/wp-content/uploads/2016/02/lumentum_featuredimage.png",
     tvSymbol: "NASDAQ:LITE",
   },
+    {
+    name: "Advanced Micro Devices",
+    symbol: "AMD",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/AMD_Logo.svg&width=240",
+    tvSymbol: "NASDAQ:AMD",
+  },
+  {
+    name: "Taiwan Semiconductor",
+    symbol: "TSM",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Logo_Taiwan_Semiconductor_Manufacturing_Company.svg&width=240",
+    tvSymbol: "NYSE:TSM",
+  },
+  {
+    name: "Broadcom",
+    symbol: "AVGO",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Broadcom_logo_(2016-present).svg&width=240",
+    tvSymbol: "NASDAQ:AVGO",
+  },
+  {
+    name: "Palantir Technologies",
+    symbol: "PLTR",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Palantir_company_logo.png&width=240",
+    tvSymbol: "NASDAQ:PLTR",
+  },
+  {
+    name: "ServiceNow",
+    symbol: "NOW",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/ServiceNow_logo.svg&width=240",
+    tvSymbol: "NYSE:NOW",
+  },
+  {
+    name: "Arista Networks",
+    symbol: "ANET",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Arista-networks-logo.svg&width=240",
+    tvSymbol: "NYSE:ANET",
+  },
+  {
+    name: "Adobe",
+    symbol: "ADBE",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Adobe_Corporate_logo.svg&width=240",
+    tvSymbol: "NASDAQ:ADBE",
+  },
+  {
+    name: "Salesforce",
+    symbol: "CRM",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Salesforce.com_logo.svg&width=240",
+    tvSymbol: "NYSE:CRM",
+  },
+  {
+    name: "Oracle",
+    symbol: "ORCL",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/Oracle_logo.svg&width=240",
+    tvSymbol: "NYSE:ORCL",
+  },
+  {
+    name: "ASML Holding",
+    symbol: "ASML",
+    logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/ASML_Holding_N.V._logo.svg&width=240",
+    tvSymbol: "NASDAQ:ASML",
+  },
+];
+const cac40Companies = [
+  { name: "Accor", symbol: "AC", logo: "", tvSymbol: "EURONEXT:AC", enabled: true },
+  { name: "Air Liquide", symbol: "AI", logo: "", tvSymbol: "EURONEXT:AI", enabled: true },
+  { name: "Airbus", symbol: "AIR", logo: "", tvSymbol: "EURONEXT:AIR", enabled: true },
+  { name: "ArcelorMittal", symbol: "MT", logo: "", tvSymbol: "EURONEXT:MT", enabled: true },
+  { name: "AXA", symbol: "CS", logo: "", tvSymbol: "EURONEXT:CS", enabled: true },
+  { name: "BNP Paribas", symbol: "BNP", logo: "", tvSymbol: "EURONEXT:BNP", enabled: true },
+  { name: "Bouygues", symbol: "EN", logo: "", tvSymbol: "EURONEXT:EN", enabled: true },
+  { name: "Capgemini", symbol: "CAP", logo: "", tvSymbol: "EURONEXT:CAP", enabled: true },
+  { name: "Carrefour", symbol: "CA", logo: "", tvSymbol: "EURONEXT:CA", enabled: true },
+  { name: "Crédit Agricole", symbol: "ACA", logo: "", tvSymbol: "EURONEXT:ACA", enabled: true },
+  { name: "Danone", symbol: "BN", logo: "", tvSymbol: "EURONEXT:BN", enabled: true },
+  { name: "Dassault Systèmes", symbol: "DSY", logo: "", tvSymbol: "EURONEXT:DSY", enabled: true },
+  { name: "Edenred", symbol: "EDEN", logo: "", tvSymbol: "EURONEXT:EDEN", enabled: true },
+  { name: "Engie", symbol: "ENGI", logo: "", tvSymbol: "EURONEXT:ENGI", enabled: true },
+  { name: "EssilorLuxottica", symbol: "EL", logo: "", tvSymbol: "EURONEXT:EL", enabled: true },
+  { name: "Eurofins Scientific", symbol: "ERF", logo: "", tvSymbol: "EURONEXT:ERF", enabled: true },
+  { name: "Hermès", symbol: "RMS", logo: "", tvSymbol: "EURONEXT:RMS", enabled: true },
+  { name: "Kering", symbol: "KER", logo: "", tvSymbol: "EURONEXT:KER", enabled: true },
+  { name: "Legrand", symbol: "LR", logo: "", tvSymbol: "EURONEXT:LR", enabled: true },
+  { name: "L'Oréal", symbol: "OR", logo: "", tvSymbol: "EURONEXT:OR", enabled: true },
+  { name: "LVMH", symbol: "MC", logo: "", tvSymbol: "EURONEXT:MC", enabled: true },
+  { name: "Michelin", symbol: "ML", logo: "", tvSymbol: "EURONEXT:ML", enabled: true },
+  { name: "Orange", symbol: "ORA", logo: "", tvSymbol: "EURONEXT:ORA", enabled: true },
+  { name: "Pernod Ricard", symbol: "RI", logo: "", tvSymbol: "EURONEXT:RI", enabled: true },
+  { name: "Publicis Groupe", symbol: "PUB", logo: "", tvSymbol: "EURONEXT:PUB", enabled: true },
+  { name: "Renault", symbol: "RNO", logo: "", tvSymbol: "EURONEXT:RNO", enabled: true },
+  { name: "Safran", symbol: "SAF", logo: "", tvSymbol: "EURONEXT:SAF", enabled: true },
+  { name: "Saint-Gobain", symbol: "SGO", logo: "", tvSymbol: "EURONEXT:SGO", enabled: true },
+  { name: "Sanofi", symbol: "SAN", logo: "", tvSymbol: "EURONEXT:SAN", enabled: true },
+  { name: "Schneider Electric", symbol: "SU", logo: "", tvSymbol: "EURONEXT:SU", enabled: true },
+  { name: "Société Générale", symbol: "GLE", logo: "", tvSymbol: "EURONEXT:GLE", enabled: true },
+  { name: "Stellantis", symbol: "STLAP", logo: "", tvSymbol: "EURONEXT:STLAP", enabled: true },
+  { name: "STMicroelectronics", symbol: "STMPA", logo: "", tvSymbol: "EURONEXT:STMPA", enabled: true },
+  { name: "Teleperformance", symbol: "TEP", logo: "", tvSymbol: "EURONEXT:TEP", enabled: true },
+  { name: "Thales", symbol: "HO", logo: "", tvSymbol: "EURONEXT:HO", enabled: true },
+  { name: "TotalEnergies", symbol: "TTE", logo: "", tvSymbol: "EURONEXT:TTE", enabled: false },
+  { name: "Unibail-Rodamco-Westfield", symbol: "URW", logo: "", tvSymbol: "EURONEXT:URW", enabled: true },
+  { name: "Veolia Environnement", symbol: "VIE", logo: "", tvSymbol: "EURONEXT:VIE", enabled: true },
+  { name: "Vinci", symbol: "DG", logo: "", tvSymbol: "EURONEXT:DG", enabled: true },
+  { name: "Worldline", symbol: "WLN", logo: "", tvSymbol: "EURONEXT:WLN", enabled: true },
 ];
 
+const allCompanies = [...companies, ...cac40Companies];
 export default function GraphiqueClient() {
 
   const [open, setOpen] = useState(false);
@@ -108,7 +211,7 @@ export default function GraphiqueClient() {
 
     if (!normalizedSearch) return companies;
 
-    return companies.filter((company) => {
+    return allCompanies.filter((company) => {
       return (
         company.name.toLowerCase().includes(normalizedSearch) ||
         company.symbol.toLowerCase().includes(normalizedSearch)
