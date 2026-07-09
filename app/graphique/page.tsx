@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 const companies = [
@@ -97,7 +97,7 @@ const companies = [
   },
 ];
 
-export default function GraphiquePage() {
+function GraphiqueContent() {
   const searchParams = useSearchParams();
   const symbolFromUrl = searchParams.get("symbol");
 
@@ -282,5 +282,12 @@ export default function GraphiquePage() {
         </div>
       </section>
     </main>
+  );
+}
+export default function GraphiquePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <GraphiqueContent />
+    </Suspense>
   );
 }
