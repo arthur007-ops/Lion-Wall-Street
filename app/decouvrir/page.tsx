@@ -2,52 +2,112 @@ import Link from "next/link";
 
 const trendingCompanies = [
   {
-    name: "Sandisk",
-    symbol: "SNDK",
-    logo: "https://support.sandisk.com/images/kb/sandisk-app-icon.png",
-    growth: "+539.01% YTD",
-    theme: "Stockage / Semi-conducteurs",
-    reason: "L’une des plus fortes progressions du S&P 500 en 2026.",
+    name: "Micron Technology",
+    symbol: "MU",
+    logo: "https://images.seeklogo.com/logo-png/44/1/micron-logo-png_seeklogo-446070.png",
+    growth: "Très suivie en 2026",
+    theme: "Mémoire / IA",
+    reason:
+      "Bénéficie de la demande en mémoire liée aux serveurs IA et à l’infrastructure de calcul.",
+  },
+  {
+    name: "Vertiv Holdings",
+    symbol: "VRT",
+    logo: "https://play-lh.googleusercontent.com/898QW7Xa1NpisoJjSmaefB49RL27ADFJTLaczU8Ecor22ZTWjkqmEuxXJlApP_uKUlWvp7sJYinq4t7j2n_-1vo",
+    growth: "Momentum fort",
+    theme: "Infrastructure / Data centers",
+    reason:
+      "Très suivie pour l’alimentation, le refroidissement et les équipements critiques des centres de données.",
   },
   {
     name: "Dell Technologies",
     symbol: "DELL",
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Dell_Logo.svg/330px-Dell_Logo.svg.png",
-    growth: "+223.33% YTD",
-    theme: "Matériel / IA",
-    reason: "Portée par la demande en serveurs et infrastructures liées à l’IA.",
+    growth: "Forte dynamique",
+    theme: "Serveurs / IA",
+    reason:
+      "Portée par la demande en serveurs et en matériel d’infrastructure liés au cycle d’investissement IA.",
   },
   {
-    name: "Micron",
-    symbol: "MU",
-    logo: "https://images.seeklogo.com/logo-png/44/1/micron-logo-png_seeklogo-446070.png",
-    growth: "+200%+ YTD",
-    theme: "Mémoire / IA",
-    reason: "Très suivie grâce à la demande en mémoire HBM pour les systèmes IA.",
-  },
-  {
-    name: "Intel",
-    symbol: "INTC",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg",
-    growth: "+257% YTD",
-    theme: "Semi-conducteurs",
-    reason: "Retour en force en 2026 parmi les meilleures performances de l’indice.",
+    name: "Sandisk",
+    symbol: "SNDK",
+    logo: "https://support.sandisk.com/images/kb/sandisk-app-icon.png",
+    growth: "Parmi les meilleures performances 2026",
+    theme: "Stockage / Semi-conducteurs",
+    reason:
+      "Remarquée pour sa très forte performance en 2026 dans l’univers mémoire et stockage.",
   },
   {
     name: "Western Digital",
     symbol: "WDC",
     logo: "https://www.also.com/ec/cms5/media/img/6110_1/herstellerseiten/wd/wdlogo.jpg",
-    growth: "Forte hausse en 2026",
+    growth: "Forte attention marché",
     theme: "Stockage / Data",
-    reason: "Très regardée pour son exposition à la croissance des data centers.",
+    reason:
+      "Profite de l’intérêt croissant pour le stockage lié aux besoins des data centers et de l’IA.",
   },
   {
-    name: "Vertiv",
-    symbol: "VRT",
-    logo: "https://play-lh.googleusercontent.com/898QW7Xa1NpisoJjSmaefB49RL27ADFJTLaczU8Ecor22ZTWjkqmEuxXJlApP_uKUlWvp7sJYinq4t7j2n_-1vo",
-    growth: "Momentum fort",
-    theme: "Infrastructure / Data centers",
-    reason: "Valeur suivie pour l’alimentation et le refroidissement des centres de données.",
+    name: "Seagate Technology",
+    symbol: "STX",
+    logo: "https://logo.clearbit.com/seagate.com",
+    growth: "Surveillance renforcée",
+    theme: "Stockage / Infrastructures",
+    reason:
+      "Suivie pour son exposition au stockage de données dans un contexte de hausse des besoins numériques.",
+  },
+  {
+    name: "Quanta Services",
+    symbol: "PWR",
+    logo: "https://logo.clearbit.com/quantaservices.com",
+    growth: "Thème porteur",
+    theme: "Énergie / Réseaux",
+    reason:
+      "Exposée au renforcement des réseaux électriques nécessaires à la montée des data centers.",
+  },
+  {
+    name: "Comfort Systems USA",
+    symbol: "FIX",
+    logo: "https://logo.clearbit.com/comfortsystemsusa.com",
+    growth: "Très suivie",
+    theme: "Infrastructures / Refroidissement",
+    reason:
+      "Bénéficie du besoin croissant en installations techniques autour des centres de données.",
+  },
+  {
+    name: "Modine Manufacturing",
+    symbol: "MOD",
+    logo: "https://logo.clearbit.com/modine.com",
+    growth: "Momentum de niche",
+    theme: "Refroidissement / IA",
+    reason:
+      "Regardée pour son exposition au refroidissement, un maillon clé dans l’expansion des infrastructures IA.",
+  },
+  {
+    name: "Palantir Technologies",
+    symbol: "PLTR",
+    logo: "https://logo.clearbit.com/palantir.com",
+    growth: "Valeur offensive",
+    theme: "Logiciels / IA",
+    reason:
+      "Très observée pour sa position dans les logiciels de données et d’intelligence artificielle.",
+  },
+  {
+    name: "Microsoft",
+    symbol: "MSFT",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/3840px-Microsoft_logo.svg.png",
+    growth: "Leader structurel",
+    theme: "Cloud / IA",
+    reason:
+      "Reste une valeur centrale de l’IA grâce à son cloud, ses outils logiciels et ses investissements massifs.",
+  },
+  {
+    name: "Meta Platforms",
+    symbol: "META",
+    logo: "https://logo.clearbit.com/meta.com",
+    growth: "Toujours en vue",
+    theme: "Plateforme / IA",
+    reason:
+      "Surveillée pour ses investissements dans l’IA et sa puissance financière dans les plateformes numériques.",
   },
 ];
 
@@ -64,8 +124,8 @@ export default function DecouvrirPage() {
         </p>
 
         <p className="mx-auto mt-2 max-w-3xl text-center text-base text-gray-400">
-          Ici, tu pourras retrouver des entreprises en vogue, des sociétés à forte croissance,
-          et des idées de suivi pour tes prochaines analyses de marché.
+          Ici, tu peux retrouver des entreprises en vogue, des sociétés à forte
+          croissance et des idées de suivi pour tes prochaines analyses de marché.
         </p>
 
         <div className="mt-16">
@@ -79,9 +139,10 @@ export default function DecouvrirPage() {
             </h2>
 
             <p className="mt-3 max-w-2xl text-gray-400">
-              Une sélection d’entreprises actuellement très suivies pour leur performance,
-              leur dynamique de marché ou leur exposition à l’intelligence artificielle,
-              aux semi-conducteurs et aux infrastructures numériques.
+              Une sélection d’entreprises très suivies pour leur dynamique de
+              marché et leur exposition à l’intelligence artificielle, aux
+              semi-conducteurs, au stockage, à l’énergie et aux infrastructures
+              numériques.
             </p>
           </div>
 
@@ -126,17 +187,14 @@ export default function DecouvrirPage() {
                 </p>
 
                 <div className="mt-6 flex items-center justify-between">
-                  <span className="text-sm text-gray-500">
-                    Suivi marché US
-                  </span>
+                  <span className="text-sm text-gray-500">Suivi marché US</span>
 
                   <Link
-  href={`/graphique?symbol=${encodeURIComponent(company.symbol)}`}
-  className="rounded-xl bg-yellow-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300"
->
-  Voir le graphique
-</Link>
-                
+                    href="/graphique"
+                    className="rounded-xl bg-yellow-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300"
+                  >
+                    Voir le graphique
+                  </Link>
                 </div>
               </div>
             ))}
