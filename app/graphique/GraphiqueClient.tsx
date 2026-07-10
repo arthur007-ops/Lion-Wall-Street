@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-
+import { motion } from "framer-motion";
 
 const companies = [
   {
@@ -95,7 +95,7 @@ const companies = [
     logo: "https://cignal.ai/wp-content/uploads/2016/02/lumentum_featuredimage.png",
     tvSymbol: "NASDAQ:LITE",
   },
-    {
+  {
     name: "Advanced Micro Devices",
     symbol: "AMD",
     logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/AMD_Logo.svg&width=240",
@@ -156,6 +156,7 @@ const companies = [
     tvSymbol: "NASDAQ:ASML",
   },
 ];
+
 const cac40Companies = [
   { name: "Accor", symbol: "AC", logo: "", tvSymbol: "EURONEXT:AC", enabled: true },
   { name: "Air Liquide", symbol: "AI", logo: "", tvSymbol: "EURONEXT:AI", enabled: true },
@@ -200,8 +201,8 @@ const cac40Companies = [
 ];
 
 const allCompanies = [...companies, ...cac40Companies];
-export default function GraphiqueClient() {
 
+export default function GraphiqueClient() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(companies[0]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -220,8 +221,58 @@ export default function GraphiqueClient() {
   }, [searchTerm]);
 
   return (
-    <main className="min-h-screen bg-black px-6 py-20 text-white">
-      <section className="mx-auto max-w-5xl">
+    <main className="relative min-h-screen overflow-hidden bg-black px-6 py-20 text-white">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(250,204,21,0.16),transparent_28%),radial-gradient(circle_at_80%_30%,rgba(253,224,71,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(234,179,8,0.10),transparent_26%),linear-gradient(135deg,#000000_0%,#120d00_25%,#3a2a00_50%,#120d00_75%,#000000_100%)] bg-[length:200%_200%] animate-[gradientMove_14s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 bg-black/35" />
+
+        <motion.div
+          style={{ left: "50%", top: "5%", marginLeft: "-24rem" }}
+          animate={{
+            x: [0, 18, -12, 0],
+            y: [0, 14, -10, 0],
+            scale: [1, 1.03, 0.98, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute h-72 w-72 rounded-full bg-yellow-400/10 blur-3xl"
+        />
+
+        <motion.div
+          style={{ right: "50%", top: "10rem", marginRight: "-26rem" }}
+          animate={{
+            x: [0, -16, 10, 0],
+            y: [0, -12, 16, 0],
+            scale: [1, 0.98, 1.04, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute h-80 w-80 rounded-full bg-yellow-300/10 blur-3xl"
+        />
+
+        <motion.div
+          style={{ left: "50%", bottom: "2.5rem", marginLeft: "-8rem" }}
+          animate={{
+            x: [0, 10, -8, 0],
+            y: [0, -18, 10, 0],
+            scale: [1, 1.02, 0.99, 1],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute h-64 w-64 rounded-full bg-amber-300/10 blur-3xl"
+        />
+      </div>
+
+      <section className="relative mx-auto max-w-5xl">
         <h1 className="text-center text-5xl font-bold text-yellow-400">
           Graphique
         </h1>

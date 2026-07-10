@@ -1,14 +1,60 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-black px-6 py-20 text-white">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-20 h-72 w-72 -translate-x-[120%] rounded-full bg-yellow-400/10 blur-3xl" />
-        <div className="absolute right-1/2 top-40 h-80 w-80 translate-x-[130%] rounded-full bg-yellow-300/10 blur-3xl" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(250,204,21,0.16),transparent_28%),radial-gradient(circle_at_80%_30%,rgba(253,224,71,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(234,179,8,0.10),transparent_26%),linear-gradient(135deg,#000000_0%,#120d00_25%,#3a2a00_50%,#120d00_75%,#000000_100%)] bg-[length:200%_200%] animate-[gradientMove_14s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 bg-black/35" />
+
+        <motion.div
+          style={{ left: "50%", top: "5%", marginLeft: "-24rem" }}
+          animate={{
+            x: [0, 18, -12, 0],
+            y: [0, 14, -10, 0],
+            scale: [1, 1.03, 0.98, 1],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute h-72 w-72 rounded-full bg-yellow-400/10 blur-3xl"
+        />
+
+        <motion.div
+          style={{ right: "50%", top: "10rem", marginRight: "-26rem" }}
+          animate={{
+            x: [0, -16, 10, 0],
+            y: [0, -12, 16, 0],
+            scale: [1, 0.98, 1.04, 1],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute h-80 w-80 rounded-full bg-yellow-300/10 blur-3xl"
+        />
+
+        <motion.div
+          style={{ left: "50%", bottom: "2.5rem", marginLeft: "-8rem" }}
+          animate={{
+            x: [0, 10, -8, 0],
+            y: [0, -18, 10, 0],
+            scale: [1, 1.02, 0.99, 1],
+          }}
+          transition={{
+            duration: 14,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute h-64 w-64 rounded-full bg-amber-300/10 blur-3xl"
+        />
       </div>
 
       <section className="relative mx-auto flex max-w-6xl flex-col items-center text-center">
@@ -47,7 +93,7 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="mt-6 max-w-4xl text-5xl font-bold text-yellow-400 md:text-7xl"
         >
-          Apprenez à faire travailler votre argent avec nous. 
+          Apprenez à faire travailler votre argent avec nous.
         </motion.h1>
 
         <motion.p
@@ -59,6 +105,20 @@ export default function Home() {
           Lion Wall Street est un univers dédié à la finance, à l’investissement et à l’analyse de marché,
           avec une approche simple, moderne et ambitieuse pour vous apprendres les rouages de la bourse.
         </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.28 }}
+          className="mt-8"
+        >
+          <Link
+            href="/test-supabase"
+            className="inline-flex items-center rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-6 py-3 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+          >
+            Tester la connexion Supabase
+          </Link>
+        </motion.div>
 
         <motion.div
           initial="hidden"
