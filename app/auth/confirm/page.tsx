@@ -1,23 +1,37 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
-export default function ConfirmEmailPage() {
-  const searchParams = useSearchParams();
+type ConfirmPageProps = {
+  searchParams: Promise<{
+    token_hash?: string;
+    type?: string;
+  }>;
+};
+
+export default async function ConfirmEmailPage({ searchParams }: ConfirmPageProps) {
+  const params = await searchParams;
+  const tokenHash = params.token_hash;
+  const type = params.type;
+
+  return <ConfirmEmailClient tokenHash={tokenHash} type={type} />;
+}
+
+function ConfirmEmailClient({
+  tokenHash,
+  type,
+}: {
+  tokenHash?: string;
+  type?: string;
+}) {
   const router = useRouter();
-
-  const tokenHash = searchParams.get("token_hash");
-  const type = searchParams.get("type");
-
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [confirmed, setConfirmed] = useState(false);
 
-  const isValidLink = useMemo(() => {
-    return !!tokenHash && !!type;
-  }, [tokenHash, type]);
+  const isValidLink = !!tokenHash && !!type;
 
   const handleConfirm = async () => {
     if (!tokenHash || !type) {
@@ -51,7 +65,7 @@ export default function ConfirmEmailPage() {
 
   return (
     <main className="min-h-screen bg-black px-6 py-20 text-white">
-      <section className="mx-auto max-w-xl rounded-3xl border border-white/10 bg-zinc-900 p-8 shadow-2xl text-center">
+      <section className="mx-auto max-w-xl rounded-3xl border border-white/10 bg-zinc-900 p-8 text-center shadow-2xl">
         <p className="text-sm uppercase tracking-[0.25em] text-yellow-400/80">
           Confirmation
         </p>
@@ -61,7 +75,7 @@ export default function ConfirmEmailPage() {
         </h1>
 
         <p className="mt-4 text-gray-300">
-          Cliquez sur le bouton ci-dessous pour valider définitivement votre adresse email.
+          Cliquez sur le bouton ci-dessous pour valider votre adresse email.
         </p>
 
         {!isValidLink && (
