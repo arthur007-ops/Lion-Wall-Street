@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
-export default function TestSupabasePage() {
+export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,12 +30,15 @@ export default function TestSupabasePage() {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: "http://localhost:3000/auth/confirm",
+        },
       });
 
       if (error) {
         setMessage(error.message);
       } else {
-        setMessage("Compte créé. Vérifie ton email pour confirmer l’inscription.");
+        setMessage("Compte créé. Vérifie ton email pour confirmer ton inscription.");
       }
     }
 
