@@ -1,10 +1,56 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { supabase } from "@/lib/supabase";
 
 export default function Home() {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      setIsLoggedIn(!!user);
+      setCheckingAuth(false);
+    };
+
+    checkUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsLoggedIn(!!session?.user);
+      setCheckingAuth(false);
+
+      if (event === "SIGNED_IN" && session?.user) {
+        router.push("/");
+        router.refresh();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (!error) {
+      setIsLoggedIn(false);
+      router.push("/");
+      router.refresh();
+    }
+  };
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-black px-6 py-20 text-white">
       <div className="pointer-events-none absolute inset-0">
@@ -110,11 +156,36 @@ export default function Home() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.28 }}
-          className="mt-8"
+          className="mt-8 flex flex-wrap items-center justify-center gap-4"
         >
+          {!checkingAuth && isLoggedIn ? (
+            <>
+              <Link
+                href="/profil"
+                className="inline-flex items-center rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-6 py-3 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+              >
+                Mon profil
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10"
+              >
+                Se déconnecter
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/test-supabase"
+              className="inline-flex items-center rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-6 py-3 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+            >
+              Connexion
+            </Link>
+          )}
+
           <Link
             href="/test-supabase"
-            className="inline-flex items-center rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-6 py-3 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
+            className="inline-flex items-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10"
           >
             Tester la connexion Supabase
           </Link>

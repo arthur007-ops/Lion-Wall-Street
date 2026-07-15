@@ -1,48 +1,104 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export default function AuthPage() {
+  const router = useRouter();
+
+  console.log("SUPABASE URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+  console.log(
+    "SUPABASE KEY START:",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.slice(0, 20)
+  );
+  console.log("SITE URL:", siteUrl);
+
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN" && session?.user) {
+        router.push("/");
+        router.refresh();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+    try {
+      const cleanEmail = email.trim();
 
-      if (error) {
-        setMessage(error.message);
-      } else {
-        setMessage("Connexion réussie.");
-      }
-    } else {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: "http://localhost:3000/auth/confirm",
-        },
-      });
+      console.log("Before auth call - URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+      console.log(
+        "Before auth call - KEY START:",
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.slice(0, 20)
+      );
+      console.log("SITE URL:", siteUrl);
+      console.log("Mode:", isLogin ? "login" : "signup");
+      console.log("Email:", cleanEmail);
 
-      if (error) {
-        setMessage(error.message);
+      if (isLogin) {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password,
+        });
+
+        console.log("signIn data:", data);
+        console.error("signIn error:", error);
+
+        if (error) {
+          setMessage(error.message || "Erreur lors de la connexion.");
+        } else {
+          setMessage("Connexion réussie.");
+          router.push("/");
+          router.refresh();
+        }
       } else {
-        setMessage("Compte créé. Vérifie ton email pour confirmer ton inscription.");
+        const { data, error } = await supabase.auth.signUp({
+          email: cleanEmail,
+          password,
+          options: {
+            emailRedirectTo: `${siteUrl}/auth/confirm`,
+          },
+        });
+
+        console.log("signUp data:", data);
+        console.error("signUp error:", error);
+
+        if (error) {
+          setMessage(error.message || "Erreur lors de la création du compte.");
+        } else if (data?.user && !data?.session) {
+          setMessage("Compte créé. Vérifie ton email pour confirmer ton inscription.");
+        } else {
+          setMessage("Compte créé avec succès.");
+          router.push("/");
+          router.refresh();
+        }
       }
+    } catch (err: any) {
+      console.error("Unexpected auth error:", err);
+      setMessage(err?.message || "Une erreur inattendue est survenue.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -111,6 +167,8 @@ export default function AuthPage() {
           onClick={() => {
             setIsLogin(!isLogin);
             setMessage("");
+            setEmail("");
+            setPassword("");
           }}
           className="mt-6 text-sm text-yellow-300 underline underline-offset-4"
         >
