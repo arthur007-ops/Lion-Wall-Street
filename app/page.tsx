@@ -1,36 +1,93 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
+import AuthPanel from "./components/AuthPanel";
 
 export default function Home() {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [profileName, setProfileName] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+
+  const displayName = useMemo(() => {
+    if (profileName.trim()) return profileName.trim();
+    if (profileEmail.trim()) return profileEmail.split("@")[0];
+    return "Mon profil";
+  }, [profileName, profileEmail]);
+
+  const profileInitials = useMemo(() => {
+    const source = profileName.trim() || profileEmail.trim() || "MP";
+    return source.slice(0, 2).toUpperCase();
+  }, [profileName, profileEmail]);
+
+  const avatarDisplayUrl = useMemo(() => {
+    if (!avatarUrl) return "";
+    return `${avatarUrl}?t=${Date.now()}`;
+  }, [avatarUrl]);
 
   useEffect(() => {
-    const checkUser = async () => {
+    const loadUserAndProfile = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
 
       setIsLoggedIn(!!user);
+
+      if (user) {
+        setProfileEmail(user.email || "");
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("username, avatar_url")
+          .eq("id", user.id)
+          .single();
+
+        setProfileName(profile?.username || "");
+        setAvatarUrl(profile?.avatar_url || "");
+      } else {
+        setProfileEmail("");
+        setProfileName("");
+        setAvatarUrl("");
+      }
+
       setCheckingAuth(false);
     };
 
-    checkUser();
+    loadUserAndProfile();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       setIsLoggedIn(!!session?.user);
       setCheckingAuth(false);
 
+      if (session?.user) {
+        setProfileEmail(session.user.email || "");
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("username, avatar_url")
+          .eq("id", session.user.id)
+          .single();
+
+        setProfileName(profile?.username || "");
+        setAvatarUrl(profile?.avatar_url || "");
+      } else {
+        setProfileEmail("");
+        setProfileName("");
+        setAvatarUrl("");
+      }
+
       if (event === "SIGNED_IN" && session?.user) {
+        setAuthOpen(false);
         router.push("/");
         router.refresh();
       }
@@ -41,18 +98,8 @@ export default function Home() {
     };
   }, [router]);
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-
-    if (!error) {
-      setIsLoggedIn(false);
-      router.push("/");
-      router.refresh();
-    }
-  };
-
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black px-6 py-20 text-white">
+    <main className="relative min-h-screen overflow-hidden bg-black px-6 py-8 text-white">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(250,204,21,0.16),transparent_28%),radial-gradient(circle_at_80%_30%,rgba(253,224,71,0.12),transparent_30%),radial-gradient(circle_at_50%_80%,rgba(234,179,8,0.10),transparent_26%),linear-gradient(135deg,#000000_0%,#120d00_25%,#3a2a00_50%,#120d00_75%,#000000_100%)] bg-[length:200%_200%] animate-[gradientMove_14s_ease-in-out_infinite]" />
         <div className="absolute inset-0 bg-black/35" />
@@ -103,7 +150,62 @@ export default function Home() {
         />
       </div>
 
-      <section className="relative mx-auto flex max-w-6xl flex-col items-center text-center">
+      <header className="relative z-20 mx-auto flex w-full max-w-6xl items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Image
+            src="/logoLWS.png"
+            alt="Lion Wall Street"
+            width={48}
+            height={48}
+            priority
+            className="h-12 w-12 object-contain"
+          />
+          <span className="text-sm font-medium uppercase tracking-[0.25em] text-yellow-300 md:text-base">
+            Lion Wall Street
+          </span>
+        </div>
+
+        <div className="flex items-center">
+          {!checkingAuth && isLoggedIn ? (
+            <Link
+              href="/profil"
+              className="group inline-flex h-16 items-center gap-3 rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-3 pr-5 text-left transition hover:bg-yellow-400/20"
+            >
+              <div className="relative h-10 w-10 overflow-hidden rounded-xl border border-yellow-400/30 bg-black/20">
+                {avatarUrl ? (
+                  <img
+                    src={avatarDisplayUrl}
+                    alt="Photo de profil"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-yellow-300">
+                    {profileInitials}
+                  </div>
+                )}
+              </div>
+
+              <div className="min-w-0">
+                <p className="text-[11px] uppercase tracking-[0.22em] text-yellow-300/70">
+                  Compte
+                </p>
+                <p className="truncate text-sm font-semibold text-yellow-200">
+                  {displayName}
+                </p>
+              </div>
+            </Link>
+          ) : (
+            <button
+              onClick={() => setAuthOpen(true)}
+              className="inline-flex h-14 w-32 -translate-y-[10px] items-center justify-center rounded-2xl bg-yellow-400 text-sm font-semibold text-black transition hover:bg-yellow-300"
+            >
+              Connexion
+            </button>
+          )}
+        </div>
+      </header>
+
+      <section className="relative mx-auto mt-16 flex max-w-6xl flex-col items-center text-center">
         <motion.span
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -112,26 +214,6 @@ export default function Home() {
         >
           Finance • Investment • Newsletter
         </motion.span>
-
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.08 }}
-          className="mt-8 flex items-center justify-center gap-4"
-        >
-          <Image
-            src="/logoLWS.png"
-            alt="Lion Wall Street"
-            width={64}
-            height={64}
-            priority
-            className="h-14 w-14 object-contain md:h-16 md:w-16"
-          />
-
-          <span className="text-lg font-medium uppercase tracking-[0.25em] text-yellow-300 md:text-xl">
-            Lion Wall Street
-          </span>
-        </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 28 }}
@@ -151,45 +233,6 @@ export default function Home() {
           Lion Wall Street est un univers dédié à la finance, à l’investissement et à l’analyse de marché,
           avec une approche simple, moderne et ambitieuse pour vous apprendres les rouages de la bourse.
         </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.28 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-4"
-        >
-          {!checkingAuth && isLoggedIn ? (
-            <>
-              <Link
-                href="/profil"
-                className="inline-flex items-center rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-6 py-3 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
-              >
-                Mon profil
-              </Link>
-
-              <button
-                onClick={handleLogout}
-                className="inline-flex items-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10"
-              >
-                Se déconnecter
-              </button>
-            </>
-          ) : (
-            <Link
-              href="/test-supabase"
-              className="inline-flex items-center rounded-2xl border border-yellow-400/30 bg-yellow-400/10 px-6 py-3 text-sm font-medium text-yellow-300 transition hover:bg-yellow-400/20"
-            >
-              Connexion
-            </Link>
-          )}
-
-          <Link
-            href="/test-supabase"
-            className="inline-flex items-center rounded-2xl border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:bg-white/10"
-          >
-            Tester la connexion Supabase
-          </Link>
-        </motion.div>
 
         <motion.div
           initial="hidden"
@@ -251,6 +294,8 @@ export default function Home() {
           </motion.div>
         </motion.div>
       </section>
+
+      <AuthPanel open={authOpen} onClose={() => setAuthOpen(false)} />
     </main>
   );
 }

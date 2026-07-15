@@ -155,6 +155,66 @@ const companies = [
     logo: "https://commons.wikimedia.org/w/index.php?title=Special:Redirect/file/ASML_Holding_N.V._logo.svg&width=240",
     tvSymbol: "NASDAQ:ASML",
   },
+  {
+    name: "JPMorgan Chase",
+    symbol: "JPM",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Logo_of_JPMorganChase_2024.svg",
+    tvSymbol: "NYSE:JPM",
+  },
+  {
+    name: "Walmart",
+    symbol: "WMT",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/1/14/Walmart_logo_%282025%29.svg",
+    tvSymbol: "NASDAQ:WMT",
+  },
+  {
+    name: "Visa",
+    symbol: "V",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg",
+    tvSymbol: "NYSE:V",
+  },
+  {
+    name: "Mastercard",
+    symbol: "MA",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
+    tvSymbol: "NYSE:MA",
+  },
+  {
+    name: "Coca-Cola",
+    symbol: "KO",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg",
+    tvSymbol: "NYSE:KO",
+  },
+  {
+    name: "McDonald's",
+    symbol: "MCD",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/4/4e/McDonald%27s_Golden_Arches.svg",
+    tvSymbol: "NYSE:MCD",
+  },
+  {
+    name: "Johnson & Johnson",
+    symbol: "JNJ",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/2/20/Johnson_and_Johnson_logo.svg",
+    tvSymbol: "NYSE:JNJ",
+  },
+  {
+    name: "Procter & Gamble",
+    symbol: "PG",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/8/85/Procter_%26_Gamble_logo.svg",
+    tvSymbol: "NYSE:PG",
+  },
+  {
+    name: "Home Depot",
+    symbol: "HD",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/5f/TheHomeDepot.svg",
+    tvSymbol: "NYSE:HD",
+  },
+  {
+    name: "Cisco",
+    symbol: "CSCO",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg",
+    tvSymbol: "NASDAQ:CSCO",
+  },
 ];
 
 const cac40Companies = [

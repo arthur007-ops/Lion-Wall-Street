@@ -10,21 +10,24 @@ export const metadata: Metadata = {
   description: "Plateforme boursière avec graphiques et simulateur de portefeuille.",
   icons: {
     icon: "/logoLWS.png",
-    shortcut: "/ogoLWS.png",
+    shortcut: "/logoLWS.png",
     apple: "/apple-icon.png",
   },
 };
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
-      <body>
+    <html lang="fr" className="bg-black">
+      <body className="min-h-screen bg-black text-white">
         <SideMenue />
         {children}
+        {modal}
       </body>
     </html>
   );

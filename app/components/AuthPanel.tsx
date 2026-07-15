@@ -4,10 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
+type AuthPanelProps = {
+  open: boolean;
+  onClose: () => void;
+};
+
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-export default function AuthPage() {
+export default function AuthPanel({ open, onClose }: AuthPanelProps) {
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -15,34 +20,30 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 20);
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session?.user) {
+        setMessage("");
+        setEmail("");
+        setPassword("");
+        onClose();
         router.push("/");
         router.refresh();
       }
     });
 
     return () => {
-      clearTimeout(timer);
       subscription.unsubscribe();
     };
-  }, [router]);
+  }, [onClose, router]);
 
   const handleClose = () => {
-    setIsVisible(false);
-
-    setTimeout(() => {
-      router.back();
-    }, 300);
+    setMessage("");
+    setPassword("");
+    onClose();
   };
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -63,8 +64,6 @@ export default function AuthPage() {
           setMessage(error.message || "Erreur lors de la connexion.");
         } else {
           setMessage("Connexion réussie.");
-          router.push("/");
-          router.refresh();
         }
       } else {
         const { data, error } = await supabase.auth.signUp({
@@ -81,6 +80,7 @@ export default function AuthPage() {
           setMessage("Compte créé. Vérifie ton email pour confirmer ton inscription.");
         } else {
           setMessage("Compte créé avec succès.");
+          handleClose();
           router.push("/");
           router.refresh();
         }
@@ -96,7 +96,7 @@ export default function AuthPage() {
     <div
       onClick={handleClose}
       className={`fixed inset-0 z-[100] flex justify-end transition-all duration-300 ease-in-out ${
-        isVisible
+        open
           ? "pointer-events-auto bg-black/60 backdrop-blur-sm"
           : "pointer-events-none bg-black/0"
       }`}
@@ -104,7 +104,7 @@ export default function AuthPage() {
       <section
         onClick={(e) => e.stopPropagation()}
         className={`relative flex h-full w-full max-w-md transform flex-col justify-center rounded-l-3xl border-l border-white/10 bg-zinc-950 px-6 text-white shadow-2xl transition-transform duration-300 ease-in-out sm:px-8 ${
-          isVisible ? "translate-x-0" : "translate-x-full"
+          open ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <p className="text-sm uppercase tracking-[0.25em] text-yellow-400/80">
@@ -170,7 +170,6 @@ export default function AuthPage() {
           onClick={() => {
             setIsLogin(!isLogin);
             setMessage("");
-            setEmail("");
             setPassword("");
           }}
           className="mt-6 text-sm text-yellow-300 underline underline-offset-4"

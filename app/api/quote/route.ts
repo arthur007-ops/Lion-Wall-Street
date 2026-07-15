@@ -25,29 +25,53 @@ export async function GET(request: Request) {
       cache: "no-store",
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
       return NextResponse.json(
-        { error: "Impossible de récupérer le prix." },
+        { error: "Impossible de récupérer le prix.", details: data },
         { status: 502 }
       );
     }
 
-    const data = await response.json();
-    const quote = data?.["Global Quote"];
-
-    if (!quote) {
+    if (typeof data?.Information === "string") {
       return NextResponse.json(
-        { error: "Données introuvables pour ce symbole." },
+        { error: data.Information },
+        { status: 400 }
+      );
+    }
+
+    if (typeof data?.Note === "string") {
+      return NextResponse.json(
+        { error: data.Note },
+        { status: 429 }
+      );
+    }
+
+    if (typeof data?.["Error Message"] === "string") {
+      return NextResponse.json(
+        { error: data["Error Message"] },
+        { status: 400 }
+      );
+    }
+
+    const quote = data?.["Global Quote"];
+    const rawPrice = quote?.["05. price"];
+    const price = Number.parseFloat(String(rawPrice ?? ""));
+
+    if (!quote || Object.keys(quote).length === 0) {
+      return NextResponse.json(
+        { error: "Aucune donnée de cotation retournée par Alpha Vantage." },
         { status: 404 }
       );
     }
 
-    const rawPrice = quote["05. price"];
-    const price = typeof rawPrice === "string" ? Number(rawPrice) : Number(rawPrice);
-
-    if (!price || Number.isNaN(price)) {
+    if (!Number.isFinite(price) || price <= 0) {
       return NextResponse.json(
-        { error: "Prix introuvable ou invalide pour ce symbole." },
+        {
+          error: "Prix invalide renvoyé par Alpha Vantage.",
+          rawPrice: rawPrice ?? null,
+        },
         { status: 404 }
       );
     }
@@ -55,15 +79,20 @@ export async function GET(request: Request) {
     return NextResponse.json({
       symbol,
       price,
-      open: quote["02. open"] ?? null,
-      high: quote["03. high"] ?? null,
-      low: quote["04. low"] ?? null,
-      volume: quote["06. volume"] ?? null,
+      open: quote["02. open"] ? Number.parseFloat(String(quote["02. open"])) : null,
+      high: quote["03. high"] ? Number.parseFloat(String(quote["03. high"])) : null,
+      low: quote["04. low"] ? Number.parseFloat(String(quote["04. low"])) : null,
+      volume: quote["06. volume"] ? Number.parseInt(String(quote["06. volume"]), 10) : null,
       latestTradingDay: quote["07. latest trading day"] ?? null,
     });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Erreur serveur lors de la récupération du prix." },
+      {
+        error:
+          error instanceof Error
+            ? error.message
+            : "Erreur serveur lors de la récupération du prix.",
+      },
       { status: 500 }
     );
   }
