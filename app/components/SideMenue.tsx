@@ -20,7 +20,6 @@ export default function SideMenu() {
     { href: "/", label: "Accueil" },
     { href: "/decouvrir", label: "Découvrir" },
     { href: "/graphique", label: "Graphique" },
-    { href: "/synthese", label: "Synthèse" },
     { href: "/newsletter", label: "Newsletter" },
     { href: "/nos-articles", label: "Nos Articles" },
   ];
